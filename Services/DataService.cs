@@ -16,12 +16,8 @@ namespace ChatApp.Services
         {
             _database = new SQLiteAsyncConnection(_databasePath);
 
-            _database.CreateTableAsync<User>();
             _database.CreateTableAsync<Chat>();
             _database.CreateTableAsync<Message>();
-
-            _database.DeleteAllAsync<Chat>();
-            _database.DeleteAllAsync<Message>();
         }
 
         public async Task<IList<Chat>> GetChats()

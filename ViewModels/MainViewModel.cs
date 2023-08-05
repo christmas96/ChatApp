@@ -47,7 +47,10 @@ namespace ChatApp.ViewModels
                 Chats = await _dataService.GetChats();
                 Messages = (await _dataService.GetMessages(Chats?.FirstOrDefault()?.Id ?? 0)).ToList();
 
-                GenerateRandomMessagesStart().SafeFireAndForget();
+                if (Chats.Count == 0)
+                    GenerateRandomMessagesStart().SafeFireAndForget();
+
+                Loading = false;
                 return;
             }
 
@@ -65,7 +68,7 @@ namespace ChatApp.ViewModels
                 ChatId = SelectedChat.Id,
                 Text = NewMessageText,
                 Date = DateTime.Now,
-                UserId = (await _userService.GetUser()).Id
+                UserId = _userService.GetUser().Id
             };
 
             await _dataService.SaveMessage(newMessage);
@@ -95,8 +98,6 @@ namespace ChatApp.ViewModels
                 {
                     await GenerateNewMessage();
                 }
-
-                Loading = false;
             }
             catch(Exception ex)
             {

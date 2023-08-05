@@ -70,7 +70,7 @@
 
         <!--  Messages  -->
         <Grid Grid.Column="1" RowDefinitions="1*,Auto">
-            <Image Source="bg.jpg" />
+            <Image Aspect="AspectFill" Source="bg.jpg" />
             <CollectionView
                 Grid.Row="0"
                 BackgroundColor="Transparent"
