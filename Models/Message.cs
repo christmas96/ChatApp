@@ -13,6 +13,6 @@ namespace ChatApp.Models
         public string Text { get; set; }
         public DateTime Date { get; set; }
 
-        public bool MyMessage => UserId == (App.Current.Services.GetService<IUserService>().GetUser().GetAwaiter().GetResult()).Id;
+        public bool MyMessage => UserId == App.Current.Services.GetService<IUserService>().GetUser().Id;
     }
 }

@@ -15,15 +15,15 @@ namespace ChatApp.ViewModels
         [ObservableProperty]
         private string password;
 
-        public IAsyncRelayCommand LoginCommand { get; }
+        public IRelayCommand LoginCommand { get; }
 
         public LoginViewModel(IUserService userService)
         {
             _userService = userService;
-            LoginCommand = new AsyncRelayCommand(LoginAsync);
+            LoginCommand = new RelayCommand(GoLogin);
         }
 
-        async Task LoginAsync()
+        void GoLogin()
         {
             User newUser = new()
             {
@@ -31,7 +31,7 @@ namespace ChatApp.ViewModels
                 Password = Password
             };
 
-            await _userService.SaveUser(newUser);
+            _userService.SaveUser(newUser);
             App.Current.MainPage = new MainShell();
         }
     }

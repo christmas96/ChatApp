@@ -15,8 +15,8 @@ public partial class App : Application
         Services = ConfigureServices();
         InitializeComponent();
 
-        var user = SecureStorage.GetAsync("user").GetAwaiter().GetResult();
-		MainPage = string.IsNullOrEmpty(user) ? new LoginShell() : new MainShell();
+        var user = Services.GetService<IUserService>().GetUser();
+		MainPage = user is null ? new LoginShell() : new MainShell();
 	}
 
     static IServiceProvider ConfigureServices()
