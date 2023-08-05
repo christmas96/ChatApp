@@ -1,0 +1,164 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="ChatApp.Views.MainPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:ChatApp.Converter">
+    <ContentPage.Resources>
+        <local:MessageHorizontalAlignConverter x:Key="HorizontalConverter" />
+        <local:GridHorizontalAlignment x:Key="GridHorizontalConverter" />
+    </ContentPage.Resources>
+
+    <Grid ColumnDefinitions="Auto, *">
+        <!--  List of chats  -->
+        <CollectionView
+            Grid.Column="0"
+            BackgroundColor="#1F3A65"
+            ItemsSource="{Binding Chats}"
+            MaximumWidthRequest="400"
+            MinimumWidthRequest="150"
+            SelectedItem="{Binding SelectedChat}"
+            SelectionChangedCommand="{Binding ChangeChatCommand}"
+            SelectionMode="Single"
+            VerticalOptions="FillAndExpand"
+            VerticalScrollBarVisibility="Never"
+            WidthRequest="300">
+            <CollectionView.EmptyView>
+                <VerticalStackLayout>
+                    <Label
+                        Margin="0,100,0,0"
+                        FontAttributes="Bold"
+                        HorizontalOptions="CenterAndExpand"
+                        HorizontalTextAlignment="Center"
+                        Text="No chats yet..."
+                        TextColor="White"
+                        VerticalOptions="CenterAndExpand" />
+                </VerticalStackLayout>
+            </CollectionView.EmptyView>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Grid
+                        Margin="10,5"
+                        BackgroundColor="Transparent"
+                        ColumnDefinitions="Auto,*"
+                        ColumnSpacing="10">
+                        <Frame
+                            Padding="0"
+                            BackgroundColor="PeachPuff"
+                            BorderColor="Orange"
+                            CornerRadius="35"
+                            HeightRequest="70"
+                            IsClippedToBounds="True"
+                            VerticalOptions="CenterAndExpand"
+                            WidthRequest="70">
+                            <Image
+                                HeightRequest="50"
+                                Source="dotnet_bot.png"
+                                WidthRequest="50" />
+                        </Frame>
+                        <VerticalStackLayout Grid.Column="1" VerticalOptions="CenterAndExpand">
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="18"
+                                Text="{Binding ChatName}" />
+                            <Label FontSize="14" Text="{Binding ChatLastDate}" />
+                        </VerticalStackLayout>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <!--  Messages  -->
+        <Grid Grid.Column="1" RowDefinitions="1*,Auto">
+            <Image Source="bg.jpg" />
+            <CollectionView
+                Grid.Row="0"
+                BackgroundColor="Transparent"
+                CanReorderItems="False"
+                HorizontalOptions="FillAndExpand"
+                ItemSizingStrategy="MeasureAllItems"
+                ItemsLayout="VerticalList"
+                ItemsSource="{Binding Messages}"
+                SelectionMode="None"
+                VerticalOptions="FillAndExpand"
+                VerticalScrollBarVisibility="Default">
+                <CollectionView.EmptyView>
+                    <VerticalStackLayout>
+                        <Label
+                            Margin="0,100,0,0"
+                            FontAttributes="Bold"
+                            HorizontalOptions="CenterAndExpand"
+                            HorizontalTextAlignment="Center"
+                            Text="No messages yet..."
+                            TextColor="White"
+                            VerticalOptions="CenterAndExpand" />
+                    </VerticalStackLayout>
+                </CollectionView.EmptyView>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Margin="10,0,0,0" ColumnDefinitions="1*, 1*">
+                            <Frame
+                                Grid.Column="{Binding MyMessage, Converter={StaticResource GridHorizontalConverter}}"
+                                Margin="10"
+                                Padding="10,5"
+                                BackgroundColor="#142761"
+                                BorderColor="Transparent"
+                                Opacity="0.7" />
+                            <Frame
+                                Grid.Column="{Binding MyMessage, Converter={StaticResource GridHorizontalConverter}}"
+                                Margin="10"
+                                Padding="10,5"
+                                BackgroundColor="Transparent"
+                                BorderColor="Transparent">
+                                <StackLayout BackgroundColor="Transparent">
+                                    <Label
+                                        FontSize="12"
+                                        HorizontalOptions="StartAndExpand"
+                                        Text="{Binding Date}"
+                                        TextColor="WhiteSmoke" />
+                                    <Label
+                                        FontAttributes="Bold"
+                                        FontSize="20"
+                                        HorizontalTextAlignment="{Binding MyMessage, Converter={StaticResource HorizontalConverter}}"
+                                        LineBreakMode="WordWrap"
+                                        Text="{Binding Text}"
+                                        TextColor="WhiteSmoke" />
+                                </StackLayout>
+                            </Frame>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <Grid
+                Grid.Row="1"
+                ColumnDefinitions="1*,Auto"
+                ColumnSpacing="10">
+                <Editor
+                    Grid.Column="0"
+                    AutoSize="TextChanges"
+                    BackgroundColor="#1F3A65"
+                    HorizontalOptions="FillAndExpand"
+                    MaxLength="500"
+                    MaximumHeightRequest="500"
+                    Placeholder="Enter you message"
+                    PlaceholderColor="WhiteSmoke"
+                    Text="{Binding NewMessageText}" />
+                <Button
+                    Grid.Column="1"
+                    BackgroundColor="WhiteSmoke"
+                    Command="{Binding SendMessageCommand}"
+                    HorizontalOptions="FillAndExpand"
+                    Text="Send"
+                    TextColor="#142761"
+                    VerticalOptions="EndAndExpand" />
+            </Grid>
+        </Grid>
+
+        <Grid Grid.ColumnSpan="2" IsVisible="{Binding Loading}">
+            <StackLayout BackgroundColor="Black" Opacity="0.5" />
+            <ActivityIndicator IsRunning="{Binding Loading}" />
+        </Grid>
+    </Grid>
+
+</ContentPage>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    x:Class="ChatApp.Views.LoginPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:d="http://schemas.microsoft.com/dotnet/2021/maui/design"
+    xmlns:local="clr-namespace:ChatApp.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    BackgroundColor="Purple"
+    MinimumWidthRequest="300"
+    mc:Ignorable="d">
+    <ContentPage.Content>
+        <Grid>
+            <Label
+                x:Name="WelcomeLabel"
+                FontAttributes="Bold"
+                FontSize="100"
+                HorizontalOptions="CenterAndExpand"
+                IsVisible="True"
+                Opacity="0"
+                Text="Welcome!"
+                TextColor="White"
+                VerticalOptions="EndAndExpand" />
+
+            <VerticalStackLayout
+                x:Name="LoginStack"
+                HorizontalOptions="CenterAndExpand"
+                IsVisible="False"
+                Spacing="30"
+                VerticalOptions="CenterAndExpand">
+                <VerticalStackLayout>
+                    <Label
+                        FontSize="14"
+                        Text="Login:"
+                        TextColor="White" />
+                    <Entry
+                        BackgroundColor="White"
+                        HorizontalOptions="CenterAndExpand"
+                        Text="{Binding Login}"
+                        TextColor="Black"
+                        WidthRequest="300" />
+                </VerticalStackLayout>
+
+                <VerticalStackLayout>
+                    <Label
+                        FontSize="14"
+                        Text="Password:"
+                        TextColor="White" />
+                    <Entry
+                        BackgroundColor="White"
+                        HorizontalOptions="CenterAndExpand"
+                        IsPassword="True"
+                        Text="{Binding Password}"
+                        TextColor="Black"
+                        WidthRequest="300" />
+                </VerticalStackLayout>
+
+
+                <Button
+                    Margin="0,20,0,0"
+                    BackgroundColor="WhiteSmoke"
+                    Command="{Binding LoginCommand}"
+                    Text="Login"
+                    TextColor="Black" />
+            </VerticalStackLayout>
+
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>
